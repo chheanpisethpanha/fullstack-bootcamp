@@ -4,23 +4,28 @@ const mongodb = require('mongodb');
 const router = express.Router();
 
 
-//Get tasks
+// Get Posts
 router.get('/', async (req, res) => {
-    const tasks = await loadTasksCollection();
-    res.send(await tasks.find({}).toArray());
+    const posts = await loadTasksCollection();
+    res.send(await posts.find({}).toArray());
 });
 
-//Add task
-router.post('/', async (req, res) => { 
-    const task = await loadTasksCollection();
-    await tasklist.insertOne({
-        task: req.body.task,
-        dateCreated: new Date() 
+// Add Post
+router.post('/', async (req, res) => {
+    const posts = await loadTasksCollection();
+    await posts.insertOne({
+        task: req.body.text,
+        createdAt: new Date()
     });
     res.status(201).send();
-})
+});
 
-//Delete task
+// Delete Post
+router.delete('/:id', async (req, res) => {
+    const posts = await loadTasksCollection();
+    await posts.deleteOne({ _id: new mongodb.ObjectID(req.params.id) });
+    res.status(200).send({});
+});
 
 async function loadTasksCollection() {
     const client = await mongodb.MongoClient.connect
