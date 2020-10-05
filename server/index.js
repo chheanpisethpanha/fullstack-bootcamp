@@ -3,10 +3,6 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const app = express()
 
-// app.get('/', (req, res) => {
-//     res.send('Hello World!')
-//   })
-
 //Middleware
 app.use(bodyParser.json())
 app.use(cors())
